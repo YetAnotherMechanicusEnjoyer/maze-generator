@@ -11,20 +11,21 @@ fn edging(maze: &Maze) {
     let height: usize = maze.get_dimensions().1 as usize;
     let mut v: Vec<String> = Vec::with_capacity(height);
 
-    for (y, str) in v.iter_mut().enumerate().take(height) {
+    for y in 0..height {
+        let mut str = String::new();
         for x in 0..width {
-            if y == 0 || y == height || x == 0 || x == width {
+            if y == 0 || y == height - 1 || x == 0 || x == width - 1 {
                 str.push_str(maze.get_wall());
             } else {
                 str.push_str(maze.get_path());
             }
         }
+        str.push('\n');
+        v.push(str);
     }
     for str in v {
-        println!("{str}");
-        if let Err(e) = write_file("maze", &str) {
-            println!("{e}");
-            return;
+        if let Err(e) = write_file("./maze", &str) {
+            panic!("{e}");
         }
     }
 }

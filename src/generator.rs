@@ -1,5 +1,6 @@
 use file::{create_file, write_file};
 use input::read_input;
+use rand::Rng;
 use structs::Maze;
 
 mod file;
@@ -16,8 +17,10 @@ fn edging(maze: &Maze) {
         for x in 0..width {
             if y == 0 || y == height - 1 || x == 0 || x == width - 1 {
                 str.push_str(maze.get_wall());
-            } else {
+            } else if rand::rng().random::<u8>() % 2 == 0 {
                 str.push_str(maze.get_path());
+            } else {
+                str.push_str(maze.get_wall());
             }
         }
         str.push('\n');
